@@ -25,7 +25,7 @@ SECRET_KEY = 'lue$l=ved1#(qb2da1cp1g+n^2lx%hu_@^j)9z0ix&zi*u=8si'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 
 # Application definition
