@@ -1,0 +1,86 @@
+<html>
+<head>
+    
+    <titleE>
+    </titleE>
+    <style>
+         body{
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        input[type=text],input[type=password]{
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button{
+            background-color: blue;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%
+        }
+        button:hover{
+            opacity: 0.8;
+        }
+        .modal{
+            background-color: white;
+            overflow: auto;
+            padding-top: 60px;
+            width: 100%;
+            height: 100%;
+            top: 0%;
+            left: 0%;
+            z-index: 1;
+            position: fixed; 
+        }
+        .modal-content{
+            background-color:white;
+            margin: 5% auto 15% auto;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .container{
+            padding: 16px
+        }
+        span.psw{
+            float: right;
+            padding-top: 16px;
+        }     
+</style>
+</head>
+<body>
+    <div class="modal">
+    <form class ="modal-content animate">
+    <div class="container">
+    <center><h1>RegistrationForm</h1></center>
+    <label>FirstName</label>
+    <input type="text" placeholder="firstname">
+    <br>
+    <label>LastName</label>
+    <input type="text" placeholder="lastname">
+    <br>
+    <label>UserName</label>
+    <input type="text" placeholder="username">
+    <br>
+    <label>Password</label>
+    <input type="password" placeholder="password">
+    <br>
+    <label>ConfirmPassword</label>
+    <input type="password" placeholder="confirmpassword">
+    <br> 
+    <label>Email</label>
+    <input type="text" placeholder="email">
+    <br>
+    <input type="checkbox">terms that you agree to share your personal information
+    <br>
+    <button>Signup</button>
+    <div class="container"> 
+    </form>
+    </div>
+    </body>
+    </html>
