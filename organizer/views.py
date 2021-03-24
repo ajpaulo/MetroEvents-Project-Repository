@@ -9,7 +9,11 @@ from .forms import EventForm
 # Create your views here.
 class OrganizerDashboardView(View):
 	def get(self, request):
-		return render(request, 'organizerDashboard.html')
+		qs_events = Event.objects.all()
+		context = {
+			'events' : qs_events
+		}
+		return render(request, 'organizerDashboard.html', context)
 	def post(self, request):
 		if request.method == 'POST':
 			if 'btn_create_event' in request.POST:	
@@ -20,9 +24,21 @@ class OrganizerDashboardView(View):
 				date = request.POST.get("date_create")
 				time = request.POST.get("time_create")
 				form = Event(title = title,
-													type = type,
-													details = details,
-													date = date,
-													time = time)
+											type = type,
+											details = details,
+											date = date,
+											time = time)
 				form.save()
+			elif 'btn_edit_details' in request.POST:
+				id_num = request.POST.get("event_id_num")
+				title = request.POST.get("title_edit")
+				type = request.POST.get("type_edit")
+				details = request.POST.get("details_edit")
+				date = request.POST.get("date_edit")
+				time = request.POST.get("time_edit")
+				edit_event = Event.objects.filter(event_id = id_num).update(title = title,
+																															type = type,
+																															details = details,
+																															date = date,
+																															time = time)
 		return redirect('organizer:organizer_dashboard_view')

@@ -115,18 +115,166 @@
           </tr>
         </thead>
         <tbody>
-          
+          {% for event in events %} 
           <tr>
-            <td class="align-middle">Sample Event Title</td>
-            <td class="align-middle">January 1, 2022</td>
-            <td class="align-middle">10:00 AM</td>
+            <td class="align-middle">{{event.title}}</td>
+            <td class="align-middle">{{event.date}}</td>
+            <td class="align-middle">{{event.time}}</td>
             <td>
-              <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editDetailsModal"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Edit Details</button>
+              <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editDetailsModal-{{event.event_id}}"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Edit Details</button>
               <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#participantsModal"><i class="fa fa-users mr-2" aria-hidden="true"></i>Participants</button>
               <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#reviewsModal"><i class="fa fa-comments mr-2" aria-hidden="true"></i>Reviews</button>
               <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#cancelEventModal"><i class="fa fa-ban mr-2" aria-hidden="true"></i>Cancel Event</button>
             </td>
           </tr>
+          <div class="modal fade" id="editDetailsModal-{{event.event_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"><i class="fa fa-pencil mr-2"></i>Edit Details</h5>
+                  <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form method="POST">
+                  <div class="modal-body bg-light">
+                    {% csrf_token %}
+                    <div class="input-group">
+                      <div class="input-group-prepend mb-3">
+                        <span class="input-group-text">Event Title</span>
+                      </div>
+                      <input type="text" name="event_id_num" value={{event.event_id}} hidden>
+                      <input type="text" id="title_edit-{{event.event_id}}" name="title_edit" class="form-control mb-3" maxlength="150" value="{{event.title}}" required>
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-prepend mb-3">
+                        <span class="input-group-text">Type</span>
+                      </div>
+                      <input type="text" id="type_edit-{{event.event_id}}" name="type_edit" class="form-control mb-3" maxlength="150" value="{{event.type}}" required>
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-prepend mb-3">
+                        <span class="input-group-text">Date</span>
+                      </div>
+                      <input type="date" id="date_edit-{{event.event_id}}" name="date_edit" class="form-control mb-3" value={{event.date|date:"Y-m-d"}} required>
+                      <script type="text/javascript">
+                        disableBeforeToday('date_edit-{{event.event_id}}');
+                      </script>
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-prepend mb-3">
+                        <span class="input-group-text">Time</span>
+                      </div>
+                      <input type="time" id="time_edit-{{event.event_id}}" name="time_edit" class="form-control mb-3" value={{event.time|time:"H:i:s"}} required>
+                    </div>
+                    <textarea class="mb-3 form-control" id="details_edit" name="details_edit" rows="3" placeholder="Details" maxlength="255">{{event.details}}</textarea>
+                    <div class="input-group">
+                      <div class="input-group-prepend mb-3">
+                        <span class="input-group-text">No. of Participants</span>
+                      </div>
+                      <input type="number" id="participants_edit-{{event.event_id}}" name="participants_edit" class="form-control mb-3" min="0" value="{{event.num_of_participants}}"  disabled required>
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">No. of Upvotes</span>
+                      </div>
+                      <input type="number" id="upvotes_edit-{{event.event_id}}" name="upvotes_edit" class="form-control" min="0" value="{{event.num_of_upvotes}}"  disabled required>
+                    </div>
+                  </div>
+                  <div class="modal-footer justify-content-center">
+                    <button type="submit"  id="btn_edit_details" name="btn_edit_details" class="btn btn-primary">Save Changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div class="modal fade" id="participantsModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="min-width: 800px;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"><i class="fa fa-users mr-2"></i>Participants</h5>
+                  <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body bg-light">
+                  <div class="container text-center" id="participantList">
+                    <div class="row border border-dark bg-secondary">
+                      <div class="col-4 border border-dark"><b>Username</b></div>
+                      <div class="col-4 border border-dark"><b>First Name</b></div>
+                      <div class="col-4 border border-dark"><b>Last Name</b></div>
+                    </div>
+                    
+                      
+                    <div class="row border-bottom border-right border-left border-dark">
+                      <div class="col-4 border-bottom border-right border-left border-dark">sampleusername</div>
+                      <div class="col-4 border-bottom border-right border-left border-dark">Sample First Name</div>
+                      <div class="col-4 border-bottom border-right border-left border-dark">Sample Last Name</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal fade" id="reviewsModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="min-width: 1000px;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"><i class="fa fa-comments mr-2"></i>Reviews</h5>
+                  <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body bg-light">
+                  <div class="container text-center" id="reviewList">
+                    <div class="row border border-dark bg-info">
+                      <div class="col-2 border border-dark"><b>Username</b></div>
+                      <div class="col-3 border border-dark"><b>Event Title</b></div>
+                      <div class="col-1 border border-dark"><b>Rating</b></div>
+                      <div class="col-6 border border-dark"><b>Description</b></div>
+                    </div>
+                      
+
+                    <div class="row border-bottom border-right border-left border-dark">
+                      <div class="col-2 border-bottom border-right border-left border-dark">sampleusername</div>
+                      <div class="col-3 border-bottom border-right border-left border-dark">Sample Event Title</div>
+                      <div class="col-1 border-bottom border-right border-left border-dark">9</div>
+                      <div class="col-6 border-bottom border-right border-left border-dark">Sample Description</div>
+                    </div>
+                  </div>              
+                </div>
+                <div class="modal-footer justify-content-center">
+    
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal fade" id="cancelEventModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title"><i class="fa fa-ban mr-2"></i>Cancel Event</h5>
+                  <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body bg-light">
+                  Are you sure you want to cancel this event?           
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <button type="submit"  id="btn_yes" name="btn_yes" class="btn btn-danger">Yes</button>
+                  <button type="submit"  id="btn_no" name="btn_no" class="btn btn-primary" data-dismiss="modal" aria-label="Close">No</button>
+                </div>
+              </div>
+            </div>
+          </div>  
+          {% endfor %}        
         </tbody>
       </table>
 
@@ -178,160 +326,5 @@
           </div>
         </div>
       </div>
-
-      <div class="modal fade" id="editDetailsModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title"><i class="fa fa-pencil mr-2"></i>Edit Details</h5>
-              <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body bg-light">
-              <form method="POST">
-                {% csrf_token %}
-                <div class="input-group">
-                  <div class="input-group-prepend mb-3">
-                    <span class="input-group-text">Event Title</span>
-                  </div>
-                  <input type="text" id="title_edit"name="title_edit" class="form-control mb-3" maxlength="150" required>
-                </div>
-                <div class="input-group">
-                  <div class="input-group-prepend mb-3">
-                    <span class="input-group-text">Type</span>
-                  </div>
-                  <input type="text" id="type_edit"name="type_edit" class="form-control mb-3" maxlength="150" required>
-                </div>
-                <div class="input-group">
-                  <div class="input-group-prepend mb-3">
-                    <span class="input-group-text">Date</span>
-                  </div>
-                  <input type="date" id="date_edit" name="date_edit" class="form-control mb-3" required>
-                  <script type="text/javascript">
-                    disableBeforeToday('date_create');
-                  </script>
-                </div>
-                <div class="input-group">
-                  <div class="input-group-prepend mb-3">
-                    <span class="input-group-text">Time</span>
-                  </div>
-                  <input type="time" id="time_edit" name="time_edit" class="form-control mb-3" required>
-                </div>
-                <textarea class="mb-3 form-control" id="details_edit" name="details_edit" rows="3" placeholder="Details" maxlength="255"></textarea>
-                <div class="input-group">
-                  <div class="input-group-prepend mb-3">
-                    <span class="input-group-text">No. of Participants</span>
-                  </div>
-                  <input type="number" id="participants_edit"name="participants_edit" class="form-control mb-3" min="0" value="0" disabled required>
-                </div>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">No. of Upvotes</span>
-                  </div>
-                  <input type="number" id="upvotes_edit"name="upvotes_edit" class="form-control" min="0" value="0" disabled required>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer justify-content-center">
-              <button type="submit"  id="btn_edit_details" name="btn_edit_details" class="btn btn-primary">Save Changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="participantsModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="min-width: 700px;">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title"><i class="fa fa-users mr-2"></i>Participants</h5>
-              <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body bg-light">
-              <table class="table table-striped table-bordered text-center" id="participantList">
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Last Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                  <tr>
-                    <td class="align-middle">sampleusername</td>
-                    <td class="align-middle">Sample First Name</td>
-                    <td class="align-middle">Sample Middle Name</td>
-                    <td class="align-middle">Sample Last Name</td>
-                  </tr>
-                </tbody>
-              </table>              
-            </div>
-            <div class="modal-footer justify-content-center">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="reviewsModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document" style="min-width: 1000px;">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title"><i class="fa fa-comments mr-2"></i>Reviews</h5>
-              <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body bg-light">
-              <table class="table table-striped table-bordered text-center" id="reviewList">
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Event Title</th>
-                    <th>Rating</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                  <tr>
-                    <td class="align-middle">sampleusername</td>
-                    <td class="align-middle">Sample Event Title</td>
-                    <td class="align-middle">9</td>
-                    <td class="align-middle">Sample Description</td>
-                  </tr>
-                </tbody>
-              </table>              
-            </div>
-            <div class="modal-footer justify-content-center">
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal fade" id="cancelEventModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title"><i class="fa fa-ban mr-2"></i>Cancel Event</h5>
-              <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body bg-light">
-              Are you sure you want to cancel this event?           
-            </div>
-            <div class="modal-footer justify-content-center">
-              <button type="submit"  id="btn_yes" name="btn_yes" class="btn btn-danger">Yes</button>
-              <button type="submit"  id="btn_no" name="btn_no" class="btn btn-primary">No</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   {% endblock content %}
