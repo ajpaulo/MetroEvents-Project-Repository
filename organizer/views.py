@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.http import HttpResponse, HttpResponseRedirect 
 from .models import *
+from user.models import *
+from administrator.models import *
 from datetime import datetime
 from .forms import EventForm
 
@@ -10,8 +12,12 @@ from .forms import EventForm
 class OrganizerDashboardView(View):
 	def get(self, request):
 		qs_events = Event.objects.filter(is_cancelled=False)
+		qs_participants = Participant.objects.all()
+		qs_reviews = Review.objects.all()
 		context = {
-			'events' : qs_events
+			'events' : qs_events,
+			'participants' : qs_participants,
+			'reviews' : qs_reviews,
 		}
 		return render(request, 'organizerDashboard.html', context)
 	def post(self, request):

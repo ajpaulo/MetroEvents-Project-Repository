@@ -207,12 +207,16 @@
                       <div class="col-4 border border-dark"><b>Last Name</b></div>
                     </div>
                     
+                    {% for participant in participants %}
                       
+                    {% if participant.event_id == event.event_id %}
                     <div class="row border-bottom border-right border-left border-dark">
-                      <div class="col-4 border-bottom border-right border-left border-dark">sampleusername</div>
-                      <div class="col-4 border-bottom border-right border-left border-dark">Sample First Name</div>
-                      <div class="col-4 border-bottom border-right border-left border-dark">Sample Last Name</div>
+                      <div class="col-4 border-bottom border-right border-left border-dark">{{participant.user.username}}</div>
+                      <div class="col-4 border-bottom border-right border-left border-dark">{{participant.user.first_name}}</div>
+                      <div class="col-4 border-bottom border-right border-left border-dark">{{participant.user.last_name}}</div>
                     </div>
+                    {% endif %}
+                    {% endfor %}
                   </div>
                 </div>
                 <div class="modal-footer justify-content-center">
@@ -222,7 +226,7 @@
           </div>
           
           <div class="modal fade" id="reviewsModal-{{event.event_id}}" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document" style="min-width: 1000px;">
+            <div class="modal-dialog" role="document" style="min-width: 800px;">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title"><i class="fa fa-comments mr-2"></i>Reviews</h5>
@@ -233,19 +237,21 @@
                 <div class="modal-body bg-light">
                   <div class="container text-center" id="reviewList">
                     <div class="row border border-dark bg-info">
-                      <div class="col-2 border border-dark"><b>Username</b></div>
-                      <div class="col-3 border border-dark"><b>Event Title</b></div>
-                      <div class="col-1 border border-dark"><b>Rating</b></div>
-                      <div class="col-6 border border-dark"><b>Description</b></div>
+                      <div class="col-3 border border-dark"><b>Username</b></div>
+                      <div class="col-2 border border-dark"><b>Rating</b></div>
+                      <div class="col-7 border border-dark"><b>Description</b></div>
                     </div>
-                      
 
+                    {% for review in reviews %}
+                      
+                    {% if review.event_id == event.event_id %}  
                     <div class="row border-bottom border-right border-left border-dark">
-                      <div class="col-2 border-bottom border-right border-left border-dark">sampleusername</div>
-                      <div class="col-3 border-bottom border-right border-left border-dark">Sample Event Title</div>
-                      <div class="col-1 border-bottom border-right border-left border-dark">9</div>
-                      <div class="col-6 border-bottom border-right border-left border-dark">Sample Description</div>
+                      <div class="col-3 border-bottom border-right border-left border-dark">{{review.par.user.username}}</div>
+                      <div class="col-2 border-bottom border-right border-left border-dark">{{review.rating}}</div>
+                      <div class="col-7 border-bottom border-right border-left border-dark">{{review.description}}</div>
                     </div>
+                    {% endif %}
+                    {% endfor %}
                   </div>              
                 </div>
                 <div class="modal-footer justify-content-center">
