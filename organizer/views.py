@@ -54,4 +54,13 @@ class OrganizerDashboardView(View):
 			elif 'btn_yes' in request.POST:
 				id_num = request.POST.get("event_id_num")
 				delete_event = Event.objects.filter(event_id = id_num).update(is_cancelled = True)
+			elif 'btn_accept' in request.POST:
+				id_num = request.POST.get("request_id_num")
+				current_request = Request.objects.filter(request_id = id_num)
+				accept_request = current_request.update(status = 'accepted')
+				new_participant = Participant(event_id=current_request[0].event_id, user_id=current_request[0].user_id)
+				new_participant.save()
+			elif 'btn_delete' in request.POST:
+				id_num = request.POST.get("request_id_num")
+				accept_request = Request.objects.filter(request_id = id_num).update(status = 'declined')
 		return redirect('organizer:organizer_dashboard_view')
