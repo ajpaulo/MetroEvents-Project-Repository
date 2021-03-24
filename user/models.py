@@ -1,15 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
-class User(models.Model):
-  user_id = models.AutoField(primary_key=True) 
-  username = models.CharField(max_length=50) 
-  password = models.CharField(max_length=50) 
-  first_name = models.CharField(max_length=50) 
-  last_name = models.CharField(max_length=50)  
+# class User(models.Model):
+#   user_id = models.AutoField(primary_key=True) 
+#   username = models.CharField(max_length=50) 
+#   password = models.CharField(max_length=50) 
+#   first_name = models.CharField(max_length=50) 
+#   last_name = models.CharField(max_length=50)  
 
-  class Meta:
-    db_table = 'user'
+#   class Meta:
+#     db_table = 'user'
 
 class Request(models.Model):
   request_id = models.AutoField(primary_key=True)

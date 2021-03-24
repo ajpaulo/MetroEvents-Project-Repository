@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Event(models.Model):
@@ -17,7 +18,7 @@ class Event(models.Model):
 
 class Organizer(models.Model):
   org_id = models.AutoField(primary_key=True) 
-  user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
   event = models.ForeignKey(Event, on_delete=models.CASCADE) 
 
   class Meta:
@@ -25,7 +26,7 @@ class Organizer(models.Model):
 
 class Participant(models.Model):
   par_id = models.AutoField(primary_key=True) 
-  user = models.ForeignKey('user.User', on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
   event = models.ForeignKey(Event, on_delete=models.CASCADE) 
 
   class Meta:
