@@ -122,9 +122,9 @@
             <td class="align-middle">{{event.time}}</td>
             <td>
               <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editDetailsModal-{{event.event_id}}"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Edit Details</button>
-              <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#participantsModal"><i class="fa fa-users mr-2" aria-hidden="true"></i>Participants</button>
-              <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#reviewsModal"><i class="fa fa-comments mr-2" aria-hidden="true"></i>Reviews</button>
-              <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#cancelEventModal"><i class="fa fa-ban mr-2" aria-hidden="true"></i>Cancel Event</button>
+              <button class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#participantsModal-{{event.event_id}}"><i class="fa fa-users mr-2" aria-hidden="true"></i>Participants</button>
+              <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#reviewsModal-{{event.event_id}}"><i class="fa fa-comments mr-2" aria-hidden="true"></i>Reviews</button>
+              <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#cancelEventModal-{{event.event_id}}"><i class="fa fa-ban mr-2" aria-hidden="true"></i>Cancel Event</button>
             </td>
           </tr>
           <div class="modal fade" id="editDetailsModal-{{event.event_id}}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -190,7 +190,7 @@
           </div>
           
           
-          <div class="modal fade" id="participantsModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal fade" id="participantsModal-{{event.event_id}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document" style="min-width: 800px;">
               <div class="modal-content">
                 <div class="modal-header">
@@ -221,7 +221,7 @@
             </div>
           </div>
           
-          <div class="modal fade" id="reviewsModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal fade" id="reviewsModal-{{event.event_id}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document" style="min-width: 1000px;">
               <div class="modal-content">
                 <div class="modal-header">
@@ -255,7 +255,7 @@
             </div>
           </div>
           
-          <div class="modal fade" id="cancelEventModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal fade" id="cancelEventModal-{{event.event_id}}" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -264,13 +264,17 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body bg-light">
-                  Are you sure you want to cancel this event?           
-                </div>
-                <div class="modal-footer justify-content-center">
-                  <button type="submit"  id="btn_yes" name="btn_yes" class="btn btn-danger">Yes</button>
-                  <button type="submit"  id="btn_no" name="btn_no" class="btn btn-primary" data-dismiss="modal" aria-label="Close">No</button>
-                </div>
+                <form method="POST">
+                  {% csrf_token %}
+                  <div class="modal-body bg-light">
+                    Are you sure you want to cancel {{event.title}}?           
+                  </div>
+                  <div class="modal-footer justify-content-center">
+                    <input type="text" name="event_id_num" value={{event.event_id}} hidden>
+                    <button type="submit"  id="btn_yes" name="btn_yes" class="btn btn-danger">Yes</button>
+                    <button type="button"  id="btn_no" name="btn_no" class="btn btn-primary" data-dismiss="modal" aria-label="Close">No</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>  

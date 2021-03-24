@@ -9,7 +9,7 @@ from .forms import EventForm
 # Create your views here.
 class OrganizerDashboardView(View):
 	def get(self, request):
-		qs_events = Event.objects.all()
+		qs_events = Event.objects.filter(is_cancelled=False)
 		context = {
 			'events' : qs_events
 		}
@@ -41,4 +41,7 @@ class OrganizerDashboardView(View):
 																															details = details,
 																															date = date,
 																															time = time)
+			elif 'btn_yes' in request.POST:
+				id_num = request.POST.get("event_id_num")
+				delete_event = Event.objects.filter(event_id = id_num).update(is_cancelled = True)
 		return redirect('organizer:organizer_dashboard_view')
