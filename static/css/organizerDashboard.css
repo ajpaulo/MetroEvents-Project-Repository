@@ -1,0 +1,30 @@
+a {
+  color: #ffffff;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn:focus {
+  box-shadow: none;
+}
+
+.btn:active {
+  box-shadow: none;
+}
+
+.btn-logout {
+  color:#ffffff;
+  background-color: transparent;
+  border-color: #ffffff;
+  border-radius: 4px;
+}
+
+.btn-logout:hover {
+  color: #343a40;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  border-radius: 4px;
+}
