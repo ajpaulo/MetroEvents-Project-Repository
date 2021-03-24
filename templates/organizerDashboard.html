@@ -49,14 +49,15 @@
           <a href="#" data-toggle="dropdown" id="profile">
             <i class="fa fa-user-circle-o align-middle mr-4" aria-hidden="true"></i>
           </a>
-          <div class="dropdown-menu dropdown-menu-right bg-light text-muted" style="width: 200px;" aria-labelledby="profile">
-            <div class="row justify-content-center mx-2">Welcome,<i class="ml-1">sampleusername</i>!</div>
+          <div class="dropdown-menu dropdown-menu-right bg-light text-muted" style="width: 250px;" aria-labelledby="profile">
+            <div class="row justify-content-center mx-2">Welcome,<i class="ml-1">{{request.user.username}}</i>!</div>
             <div class="dropdown-divider"></div>
-            <div class="row justify-content-start mx-2">First Name:<i class="ml-1">Sample First Name</i></div>
-            <div class="row justify-content-start mx-2">Last Name:<i class="ml-1">Sample Last Name</i></div>
-            <div class="row justify-content-center mx-2 mt-2 mb-2">
+            <div class="row justify-content-start mx-2">First Name:<i class="ml-1">{{request.user.first_name}}</i></div>
+            <div class="row justify-content-start mx-2">Last Name:<i class="ml-1">{{request.user.last_name}}</i></div>
+            <div class="row justify-content-start mx-2">Email:<i class="ml-1">{{request.user.email}}</i></div>
+            <!-- <div class="row justify-content-center mx-2 mt-2 mb-2">
               <button class="btn btn-sm btn-primary"><i class="fa fa-pencil mr-2" aria-hidden="true"></i>Edit Profile</button>
-            </div>
+            </div> -->
           </div>
         </li>
 
@@ -91,7 +92,7 @@
             {% endfor %}
           </div>
         </li>
-        <li><button class="btn btn-sm btn-logout"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i>Logout</button></li>
+        <li><a href="../user/logout"><button class="btn btn-sm btn-logout"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i>Logout</button></a></li>
       </ul>
 
     </nav>

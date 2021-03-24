@@ -7,23 +7,28 @@ from user.models import *
 from administrator.models import *
 from datetime import datetime
 from .forms import EventForm
+from django.db.models import F
 
 # Create your views here.
 class OrganizerDashboardView(View):
 	def get(self, request):
-		qs_events = Event.objects.filter(is_cancelled=False)
-		qs_participants = Participant.objects.all()
-		qs_reviews = Review.objects.all()
-		qs_notifications = Notification.objects.all()
-		qs_requests = Request.objects.filter(status='pending',request_type='join_event')
-		context = {
-			'events' : qs_events,
-			'participants' : qs_participants,
-			'reviews' : qs_reviews,
-			'notifications' : qs_notifications,
-			'requests' : qs_requests,
-		}
-		return render(request, 'organizerDashboard.html', context)
+		if request.user.is_authenticated:
+			events_organized = Organizer.objects.filter(user_id=request.user.id).values_list('event_id', flat=True)
+			qs_events = Event.objects.filter(is_cancelled=False, event_id__in=events_organized)
+			qs_participants = Participant.objects.all()
+			qs_reviews = Review.objects.all()
+			qs_notifications = Notification.objects.filter(user_id=request.user.id)
+			qs_requests = Request.objects.filter(status='pending',request_type='join_event', event_id__in=events_organized)
+			context = {
+				'events' : qs_events,
+				'participants' : qs_participants,
+				'reviews' : qs_reviews,
+				'notifications' : qs_notifications,
+				'requests' : qs_requests,
+			}
+			return render(request, 'organizerDashboard.html', context)
+		else:
+			return redirect('user:user_login_view')
 	def post(self, request):
 		if request.method == 'POST':
 			if 'btn_create_event' in request.POST:	
@@ -39,6 +44,8 @@ class OrganizerDashboardView(View):
 											date = date,
 											time = time)
 				form.save()
+				new_organizer = Organizer(event_id = form.event_id, user_id=request.user.id)
+				new_organizer.save()
 			elif 'btn_edit_details' in request.POST:
 				id_num = request.POST.get("event_id_num")
 				title = request.POST.get("title_edit")
@@ -60,6 +67,11 @@ class OrganizerDashboardView(View):
 				accept_request = current_request.update(status = 'accepted')
 				new_participant = Participant(event_id=current_request[0].event_id, user_id=current_request[0].user_id)
 				new_participant.save()
+				current_event = Event.objects.filter(event_id = current_request[0].event_id)
+				if current_event[0].num_of_participants is None:
+					update_num_of_par = Event.objects.filter(event_id = current_request[0].event_id).update(num_of_participants = 1)
+				else:
+					update_num_of_par = Event.objects.filter(event_id = current_request[0].event_id).update(num_of_participants=F('num_of_participants') + 1)
 			elif 'btn_delete' in request.POST:
 				id_num = request.POST.get("request_id_num")
 				accept_request = Request.objects.filter(request_id = id_num).update(status = 'declined')

@@ -17,8 +17,8 @@ class Request(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE) 
   event = models.ForeignKey('organizer.Event', on_delete=models.CASCADE, blank=True, null=True)  
   description = models.CharField(max_length=255)  
-  request_type = models.CharField(max_length=50)
-  status = models.CharField(max_length=50)
+  request_type = models.CharField(max_length=50) # 'join_event' : for request to join event, 'become_organizer' : for request to become an organizer
+  status = models.CharField(max_length=50) # 'pending' : not yet approved/declined by organizer, 'accepted' : request is accepted, 'declined' : request is declined
 
   class Meta:
     db_table = 'request'
