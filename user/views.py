@@ -4,10 +4,12 @@ from django.http import Http404
 from django.http import HttpResponse 
 # from .forms import Customer_Form
 from organizer.models import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import auth, User
 from datetime import date
 import time
 from django.db.models import Q
+from administrator.models import *
+from organizer.models import *
 
 # Create your views here.
 # user = User.objects.create_user('hotdog667', 'hotdog666@gmail.com', 'passwordnihotdog')
@@ -33,3 +35,43 @@ class UserDashboard(View):
         return render(request, 'userdashboard.html', context)
 
     # def post(self, request):
+
+class UserLoginView(View):
+  def get(self, request):
+    return render(request, 'index.html')
+  def post(self, request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    user = auth.authenticate(username = username, password = password)
+    if user is not None:
+      auth.login(request, user)
+      is_admin = Administrator.objects.filter(user_id=request.user.id)
+      is_organizer = Organizer.objects.filter(user_id=request.user.id)
+      if is_organizer:
+        return redirect('organizer:organizer_dashboard_view')
+      # elif is_admin:
+      #   return redirect('')
+      else:
+        return redirect('user:user_dashboard')
+    else:
+      return HttpResponse("Wrong credentials. Please try again.")
+
+class UserSignupView(View):
+  def get(self, request):
+    return render(request, 'signup.html')
+  def post(self, request):
+    if request.method == 'POST':
+      if 'btn_signup' in request.POST:
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        confirmpassword = request.POST.get("confirmpassword")
+        if str(password) == str(confirmpassword):
+          user = User.objects.create_user(first_name=firstname,last_name=lastname,username=username,email=email,password=password)
+        else:
+          return HttpResponse("Passwords don't match. Please try again.")
+        return redirect('user:user_login_view')
+        
+

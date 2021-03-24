@@ -64,19 +64,20 @@
 </head>
 <body>
     <div class="modal">
-<form class ="modal-content animate">
+<form class ="modal-content animate" method="POST">
+    {% csrf_token %}
     <div class="imgicontainer">
     <img src="templates/grouptwo/avatar.png" class="avatar">
 </div>
 <div class="container"> 
     <label>UserName</label>
-    <input type="text" placeholder="username">
+    <input type="text" placeholder="username" name="username">
     <br>
     <label>Password</label>
-    <input type="password" placeholder="password">
+    <input type="password" placeholder="password" name="password">
     <br>
     <input type="checkbox">Remember me
-    <button>Login</button>
+    <button type="submit" name="btn_login">Login</button>
     <lable><p>Forget<a href="#"> Password</a></p></lable>
     <lable><p>No Account?<a href="signup/"> signup</a></p></lable>
 </div>
