@@ -139,8 +139,8 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body bg-light">
-              <form method="POST">
+            <form method="POST">
+              <div class="modal-body bg-light">
                 {% csrf_token %}
                 <div class="input-group">
                   <div class="input-group-prepend mb-3">
@@ -170,12 +170,11 @@
                   <input type="time" id="time_create" name="time_create" class="form-control mb-3" required>
                 </div>
                 <textarea class="mb-3 form-control" id="details_create" name="details_create" rows="3" placeholder="Details" maxlength="255"></textarea>
-                
-              </form>
-            </div>
-            <div class="modal-footer justify-content-center">
-              <button type="submit"  id="btn_create_event" name="btn_create_event" class="btn btn-success">Create Event</button>
-            </div>
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button type="submit"  id="btn_create_event" name="btn_create_event" class="btn btn-success">Create Event</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

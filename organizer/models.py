@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -9,9 +10,9 @@ class Event(models.Model):
   details = models.CharField( max_length=255)
   date = models.DateField()  
   time = models.TimeField() 
-  num_of_participants = models.IntegerField() 
+  num_of_participants = models.IntegerField(blank=True, null=True) 
   is_cancelled = models.BooleanField(default=False)  
-  num_of_upvotes = models.IntegerField() 
+  num_of_upvotes = models.IntegerField(blank=True, null=True) 
 
   class Meta:
     db_table = 'event'
