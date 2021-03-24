@@ -14,10 +14,14 @@ class OrganizerDashboardView(View):
 		qs_events = Event.objects.filter(is_cancelled=False)
 		qs_participants = Participant.objects.all()
 		qs_reviews = Review.objects.all()
+		qs_notifications = Notification.objects.all()
+		qs_requests = Request.objects.filter(status='pending',request_type='join_event')
 		context = {
 			'events' : qs_events,
 			'participants' : qs_participants,
 			'reviews' : qs_reviews,
+			'notifications' : qs_notifications,
+			'requests' : qs_requests,
 		}
 		return render(request, 'organizerDashboard.html', context)
 	def post(self, request):
