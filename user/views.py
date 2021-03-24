@@ -10,6 +10,7 @@ import time
 from django.db.models import Q
 from administrator.models import *
 from organizer.models import *
+from django.contrib.auth import login, logout
 
 # Create your views here.
 # user = User.objects.create_user('hotdog667', 'hotdog666@gmail.com', 'passwordnihotdog')
@@ -73,5 +74,13 @@ class UserSignupView(View):
         else:
           return HttpResponse("Passwords don't match. Please try again.")
         return redirect('user:user_login_view')
+
+class UserLogoutView(View):
+  def get(self,request):
+    logout(request)
+    return  redirect("user:user_login_view")
+  def post(self,request):
+    logout(request)
+    return  redirect("user:user_login_view")
         
 
