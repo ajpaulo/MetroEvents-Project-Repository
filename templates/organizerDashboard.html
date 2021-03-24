@@ -66,11 +66,15 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right bg-light text-muted" style="width: 200px;" aria-labelledby="requests">
             {% for request in requests %}
-            <div class="row justify-content-center mx-2">{{request.user.username}} wants to join {{request.event.title}}!<br>{{request.description}}</div>
-            <div class="row justify-content-center">
-              <button class="btn btn-sm btn-success mr-2"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>Accept</button>
-              <button class="btn btn-sm btn-danger"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i>Decline</button>
-            </div>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="text" name="request_id_num" value={{request.request_id}} hidden>
+              <div class="row justify-content-center mx-2">{{request.user.username}} wants to join {{request.event.title}}!<br>{{request.description}}</div>
+              <div class="row justify-content-center">
+                <button type="submit" name="btn_accept" class="btn btn-sm btn-success mr-2"><i class="fa fa-check-circle mr-2" aria-hidden="true"></i>Accept</button>
+                <button type="submit" name="btn_decline" class="btn btn-sm btn-danger"><i class="fa fa-times-circle mr-2" aria-hidden="true"></i>Decline</button>
+              </div>
+            </form>
             <div class="dropdown-divider"></div>
             {% endfor %}
           </div>
