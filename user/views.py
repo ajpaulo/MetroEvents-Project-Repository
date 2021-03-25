@@ -20,17 +20,36 @@ class UserDashboard(View):
     def get(self, request):
 
         now = date.today()
-        t = time.localtime()
-        current_time = time.strftime("%H:%M:%S", t)
+        current_date = now.strftime("%Y-%m-%d")
 
-        qs_events = Event.objects.all()
-        qs_compare = Event.objects.filter(Q(date_gt = now) | Q(time_gt = current_time))
-        print(qs_events)
-        print(qs_compare)
+        t = time.localtime()
+        current_time = time.strftime("%H:%M:%S")
+
+        qs_compare_lt = Event.objects.filter(date__lt = current_date, time__lt = current_time, is_cancelled = False)
+        qs_compare_gt = Event.objects.filter(date__gt = current_date, time__gt = current_time, is_cancelled = False)
+        qs_cancelled_events = Event.objects.filter(is_cancelled=True)
+
+        # eventID = Event.objects.exclude(date__gt = current_date, time__gt = current_time, is_cancelled = False).values("event_id")
+
+        # # qs_organizer = Organizer.objects.filter(event = eventID).values('user')
+
+        # qs_org = User.objects.filter(id = eventID).values('first_name')
+
+        # org = User.objects.filter(id=qs)
+        # print(eventID)    
+
+        print(qs_compare_lt)
+        print(qs_compare_gt)
+
+        # print(org)
+        
+        
 
         context = {
-            'events': qs_events,
-            'filterdate': qs_compare
+            'filterdate_lt': qs_compare_lt,
+            'filterdate_gt': qs_compare_gt,
+            'cancelledevents' : qs_cancelled_events,
+            # 'organizer' : org,
         }
 
         return render(request, 'userdashboard.html', context)
