@@ -7,62 +7,71 @@ from organizer.models import *
 from django.contrib.auth.models import auth, User
 from datetime import date
 import time
-from django.db.models import Q
-from administrator.models import *
+from .models import *
 from organizer.models import *
 from django.contrib.auth import login, logout
+from administrator.models import *
+from organizer.models import *
+from .forms import RequestForm
 
 # Create your views here.
 # user = User.objects.create_user('hotdog667', 'hotdog666@gmail.com', 'passwordnihotdog')
 
 # Class to display all events to the user dashboard
 class UserDashboard(View):
-    def get(self, request):
+  def get(self, request):
+    # if request.user.is_authenticated:
 
-        now = date.today()
-        current_date = now.strftime("%Y-%m-%d")
+    now = date.today()
+    current_date = now.strftime("%Y-%m-%d")
 
-        t = time.localtime()
-        current_time = time.strftime("%H:%M:%S")
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
 
-        qs_compare_lt = Event.objects.filter(date__lt = current_date, time__lt = current_time, is_cancelled = False)
-        qs_compare_gt = Event.objects.filter(date__gt = current_date, time__gt = current_time, is_cancelled = False)
-        qs_cancelled_events = Event.objects.filter(is_cancelled=True)
+    qs_compare_lt = Event.objects.filter(date__lt = current_date, is_cancelled = False)
+    qs_compare_gt = Event.objects.filter(date__gt = current_date, is_cancelled = False)
+    qs_cancelled_events = Event.objects.filter(is_cancelled=True)
+    
+    qs_users = User.objects.all()
 
-        # eventID = Event.objects.exclude(date__gt = current_date, time__gt = current_time, is_cancelled = False).values("event_id")
+    # eventID = Event.objects.filter(date__lt = current_date, is_cancelled = False)
+    # userID = Event.objects.filter(date__lt = current_date, is_cancelled = False)
 
-        # # qs_organizer = Organizer.objects.filter(event = eventID).values('user')
+    # qs_requests = Request.objects.filter(request_type='join_event', event_id__in=events_organized)
 
-        # qs_org = User.objects.filter(id = eventID).values('first_name')
+    print(qs_users)
+    print(qs_compare_lt)
+    print(qs_compare_gt)
+    print(qs_cancelled_events)
+    
 
-        # org = User.objects.filter(id=qs)
-        # print(eventID)    
+    context = {
+        'filterdate_lt': qs_compare_lt,
+        'filterdate_gt': qs_compare_gt,
+        'cancelledevents' : qs_cancelled_events,
+    }
 
-        print(qs_compare_lt)
-        print(qs_compare_gt)
+    return render(request, 'userdashboard.html', context)
 
-        # print(org)
+  def post(self, request):
+    if request.method == 'POST':
+      if 'reqJoinBtn' in request.POST:
+        userID = request.POPST.get(request.User.id)
+        form = RequestForm(request.POST)
+        description = request.POST.get("req_description")
+        type = request.POST.get("req_type")
+        status = request.POST.get("req_status")
+        eventID = request.POST.get("req_event_id")
+        form = Request(description = description, type = type, status = status, event = eventID)
+
+        form.save()
+
+    return redirect('user:user_dashboard')
         
-        
-
-        context = {
-            'filterdate_lt': qs_compare_lt,
-            'filterdate_gt': qs_compare_gt,
-            'cancelledevents' : qs_cancelled_events,
-            # 'organizer' : org,
-        }
-
-        return render(request, 'userdashboard.html', context)
-
-    # def post(self, request):
-    #   if request.method == 'POST':
-    #     if 'joinBtn' in request.POST:
-    #       # if join btn is click, user details will be extracted and submitted to
-    #       # 
-
 class UserLoginView(View):
   def get(self, request):
     return render(request, 'index.html')
+
   def post(self, request):
     username = request.POST.get("username")
     password = request.POST.get("password")
@@ -83,6 +92,7 @@ class UserLoginView(View):
 class UserSignupView(View):
   def get(self, request):
     return render(request, 'signup.html')
+
   def post(self, request):
     if request.method == 'POST':
       if 'btn_signup' in request.POST:
@@ -97,13 +107,14 @@ class UserSignupView(View):
         else:
           return HttpResponse("Passwords don't match. Please try again.")
         return redirect('user:user_login_view')
-
+  
 class UserLogoutView(View):
   def get(self,request):
     logout(request)
     return  redirect("user:user_login_view")
+    
   def post(self,request):
     logout(request)
     return  redirect("user:user_login_view")
-        
+      
 

@@ -12,7 +12,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+  
 {% endblock footerinclude %}
 
 
@@ -48,81 +48,93 @@
 <!-- ############################################################################################################# -->
 
 <!-- UPCOMING EVENTS -->
-  <div class="card">
-    <h5 class="card-header">Upcoming Events</h5>
-  </div>
-  <br>
-  
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+<br>
+<div class="card">
+  <h5 class="card-header">Upcoming events</h5>
+</div>
+<br>
 
-    {% for eventfgt in filterdate_gt %}
-    
-      <div class="col">
-        <div class="card">
-          <div class="card-body">
+<div class="row row-cols-1 row-cols-md-2 g-4">
+
+  {% for eventfgt in filterdate_gt %}
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        
+        <!-- EVENT TITLE -->
+        <h5 class="card-title" name="event-name">{{eventfgt.title}}</h5>
+        
+        <!-- EVENT DESCRIPTION-->
+        <p class="card-text">{{eventfgt.date}} | {{eventfgt.time}}</p>
+
+        <!-- VIEW EVENT BUTTON -->
+        <button type="button" class="btn btn-outline-primary" name="event-view-btn" data-toggle="modal" data-target="#newModal-{{eventfgt.event_id}}">View Details</button>
+
+        <!-- VIEW EVENT MODAL -->   
+        <div class="modal fade" id="newModal-{{eventfgt.event_id}}" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
             
-            <!-- EVENT TITLE -->
-            <h5 class="card-title" name="event-name">{{eventfgt.title}}</h5>
-            
-            <!-- EVENT DESCRIPTION-->
-            <p class="card-text">{{eventfgt.date}} | {{eventfgt.time}}</p>
-
-            <!-- VIEW EVENT BUTTON -->
-            <button type="button" class="btn btn-outline-primary" name="event-view-btn" data-toggle="modal" data-target="#newModal-{{eventfgt.event_id}}">View Details</button>
-
-            <!-- VIEW EVENT MODAL -->   
-            <div class="modal fade" id="newModal-{{eventfgt.event_id}}" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                
-                  <!--MDDAL HEADER-->
-                    <div class="modal-content">
-                      <div class="modal-header" style="background-color: #000000">
-                        <h4 style="font-family: Helvetica; color: white; padding-bottom: 0px">
-                          <b>{{eventfgt.title}}</b></h4>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                  
-                  <!-- MODAL BODY-->
-                    <div class="modal-body">
-                      <div class="jumbotron jumbotron-fluid">
-                        <div class="container">
-                          <h1 class="display-4">{{eventfgt.title}}</h1>
-                          <p class="lead">{{eventfgt.date}} | {{eventfgt.time}}</p>
-                          <hr class="my-4">
-                          <p>
-                            <b>Description: </b>{{eventfgt.details}}
-                            <br>
-                            <b>RSPVd: </b>{{eventfgt.num_of_participants}}
-                            <br>
-                            <b>Type: </b>{{eventfgt.type}}
-                          
-                          </p>
-                            <!-- {% for get in organizer %}
-                            {{get.first_name}}
-                            {{get.last_name}}
-                            {% endfor %} -->
-                            
+              <!--MDDAL HEADER-->
+                <div class="modal-content">
+                  <div class="modal-header" style="background-color: #000000">
+                    <h4 style="font-family: Helvetica; color: white; padding-bottom: 0px">
+                      <b>{{eventfgt.title}}</b></h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+              
+              <!-- MODAL BODY-->
+                <div class="modal-body">
+                  <div class="jumbotron jumbotron-fluid">
+                    <div class="container">
+                      <h1 class="display-4">{{eventfgt.title}}</h1>
+                      <p class="lead">{{eventfgt.date}} | {{eventfgt.time}}</p>
+                      <hr class="my-4">
+                      <p>
+                        <b>Description: </b>{{eventfgt.details}}
+                        <br>
+                        <b>RSPVd: </b>{{eventfgt.num_of_participants}}
+                        <br>
+                      </p>
+                      
+                      <!-- REQUEST TO JOIN EVENT-->
+                      <hr class="my-4">
+                      <br>
+                      <b>Want to join the event? Send your request to the organizer now!</b>
+                      <br><br>
+                      <form id = "reqForm" method = "post">
+                        {% csrf_token %}
+                        <div class="form-group col">
+                            <input type="text" class="form-control-plaintext" name="req_type" value="join event" hidden>
+                            <input type="text" class="form-control-plaintext" name="req_event_id" value={{eventfgt.event_id}} hidden>
+                            <input type="text" class="form-control-plaintext" name="req_status" value="pending" hidden>
                         </div>
-                      </div>
-                    </div>
 
-                  <!--MODAL FOOTER-->
-                    <div class="modal-footer">
-                      <button type="submit" name="joinBtn" class="btn" style="background-color: #000000; color: white">Request to join</button>
-                      <button type="button" class="btn" data-dismiss="modal" style="background-color:  #e7e4e4; color: rgb(0, 0, 0)">Close</button>
+                        <div class="form-group">
+                          <textarea class="form-control" id="descTextArea" rows="5" name="req_description" 
+                              placeholder="Enter your message here... (max 255 words)" maxlength="255"></textarea>
+                        </div>
                     </div>
                   </div>
                 </div>
+
+              <!--MODAL FOOTER-->
+                <div class="modal-footer">
+                  <button type="submit" id="reqJoinBtn" class="btn" style="background-color: #000000; color: white">Send Request</button>
+                  <button type="button" class="btn" data-dismiss="modal" style="background-color: #e7e4e4; color: rgb(0, 0, 0)">Close</button>
+                      
+                      </form>
+                </div>
               </div>
-          </div>
+            </div>
         </div>
       </div>
-      {% endfor %}
-
     </div>
+  </div>
+    {% endfor %}
 
+</div>
 <!-- ############################################################################################################# -->
 
     <!-- EVENTS MISSED -->
@@ -176,29 +188,22 @@
                             <br>
                             <b>Type: </b>{{eventflt.type}}
                           
-                          </p>
-                            <!-- {% for get in organizer %}
-                            {{get.first_name}}
-                            {{get.last_name}}
-                            {% endfor %} -->
-                            
+                          </p>   
                         </div>
                       </div>
                     </div>
 
                   <!--MODAL FOOTER-->
                     <div class="modal-footer">
-                      <button type="submit" id="updateBtn" name="updateBtn" class="btn" style="background-color: #000000; color: white" disabled>Request to join</button>
-
                       <button type="button" class="btn" data-dismiss="modal" style="background-color: #e7e4e4; color: rgb(0, 0, 0)">Close</button>
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
           </div>
         </div>
       </div>
-      {% endfor %}
+        {% endfor %}
 
     </div>
 
@@ -268,7 +273,7 @@
 
                   <!--MODAL FOOTER-->
                     <div class="modal-footer">
-                      <button type="submit" id="updateBtn" name="updateBtn" class="btn" style="background-color: #000000; color: white" disabled>Request to join</button>
+                      <!-- <button type="submit" id="updateBtn" name="updateBtn" class="btn" style="background-color: #000000; color: white" disabled>Request to join</button> -->
 
                       <button type="button" class="btn" data-dismiss="modal" style="background-color: #e7e4e4; color: rgb(0, 0, 0)">Close</button>
                     </div>
@@ -282,9 +287,39 @@
       {% endfor %}
 
     </div>
+    <br>
+    <br>
 
     <!-- ############################################################################################################# -->
 
 </div>
 
   {% endblock content %}
+
+
+  <!--
+        <form>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Email</label>
+          <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Password</label>
+          <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputAddress">Address</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+      </div>
+      <div class="form-group">
+        <label for="inputAddress2">Address 2</label>
+        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+      </div>
+    </form>
+  -->
+
+
+
+ 
