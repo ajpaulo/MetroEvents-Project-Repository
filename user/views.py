@@ -55,6 +55,10 @@ class UserDashboard(View):
         return render(request, 'userdashboard.html', context)
 
     # def post(self, request):
+    #   if request.method == 'POST':
+    #     if 'joinBtn' in request.POST:
+    #       # if join btn is click, user details will be extracted and submitted to
+    #       # 
 
 class UserLoginView(View):
   def get(self, request):
