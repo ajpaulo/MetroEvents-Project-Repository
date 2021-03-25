@@ -56,13 +56,13 @@ class UserDashboard(View):
   def post(self, request):
     if request.method == 'POST':
       if 'reqJoinBtn' in request.POST:
-        userID = request.POPST.get(request.User.id)
         form = RequestForm(request.POST)
+        userID = request.POPST.get("req_user_id")
         description = request.POST.get("req_description")
         type = request.POST.get("req_type")
         status = request.POST.get("req_status")
         eventID = request.POST.get("req_event_id")
-        form = Request(description = description, type = type, status = status, event = eventID)
+        form = Request(user = userID, description = description, type = type, status = status, event = eventID)
 
         form.save()
 
