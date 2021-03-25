@@ -161,139 +161,41 @@
         <ol id="numbers"></ol>
     </div>
     
-    <table id="my-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Date of Birth</th>
-                <th>Country</th>
-                <th>Status</th>
-                <th>Number of Events Joined</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Kyle P. Fleming</td>
-                <td>March 14th, 2019</td>
-                <td>Japan</td>
-                <td>User</td>
-                <td>22</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Dora S. Valenzuela</td>
-                <td>May 15th, 2018</td>
-                <td>Lesotho</td>
-                <td>User</td>
-                <td>13</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Tara X. Humphrey</td>
-                <td>May 13th, 2019</td>
-                <td>Canada</td>
-                <td>User</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Jade A. Frazier</td>
-                <td>January 12th, 2020</td>
-                <td>French</td>
-                <td>Organizer</td>
-                <td>25</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Frances Q. Steele</td>
-                <td>December 18th, 2018</td>
-                <td>America</td>
-                <td>User</td>
-                <td>27</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>Lacota H. Hernandez</td>
-                <td>July 4th, 2018</td>
-                <td>Mexico</td>
-                <td>User</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>Blaze I. Mcgee</td>
-                <td>January 5th, 2020</td>
-                <td>Zambia</td>
-                <td>User</td>
-                <td>20</td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>Carson N. Stevenson</td>
-                <td>May 6th, 2018</td>
-                <td>Philippines</td>
-                <td>Organizer</td>
-                <td>5</td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>Rashad V. Perry</td>
-                <td>July 31st, 2019</td>
-                <td>Philippines</td>
-                <td>User</td>
-                <td>29</td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>Isabella V. Wright</td>
-                <td>December 5th, 2018</td>
-                <td>Italy</td>
-                <td>User</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td>Xander B. Hoover</td>
-                <td>July 17th, 2018</td>
-                <td>Maldives</td>
-                <td>User</td>
-                <td>21</td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td>Mona J. Saunders</td>
-                <td>December 6th, 2019</td>
-                <td>Iceland</td>
-                <td>User</td>
-                <td>13</td>
-            </tr>
-            <tr>
-                <td>13</td>
-                <td>Ralph R. Ingram</td>
-                <td>September 15th, 2019</td>
-                <td>Netherlands</td>
-                <td>User</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>14</td>
-                <td>Lewis H. Lane</td>
-                <td>May 31st, 2019</td>
-                <td>Greenland.</td>
-                <td>User</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>15</td>
-                <td>Ivory A. Fowler</td>
-                <td>March 17th, 2020</td>
-                <td>Australia</td>
-                <td>User</td>
-                <td>2</td>
-            </tr>
-        </tbody>
+    <table class="table table-striped table-bordered text-center" id="userList">
+      <thead>
+        <tr>
+          <th width="5%">ID</th>
+          <th width="15%">First Name</th>
+          <th width="15%">Last Name</th>
+          <th width="15%">Username</th>
+          <th width="15%">Email</th>
+          <th width="15%">User Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %} 
+        <tr>
+          <td class="align-middle">{{user.id}}</td>
+          <td class="align-middle">{{user.first_name}}</td>
+          <td class="align-middle">{{user.last_name}}</td>
+          <td class="align-middle">{{user.username}}</td>
+          <td class="align-middle">{{user.email}}</td>
+          {% for organizer in organizers|slice:":1" %}
+            {% if user.id == organizer.user.id %}
+              <td class="align-middle">Organizer</td>
+            {% else %}
+              {% for administrator in administrators|slice:":1" %}
+                {% if user.id == administrator.user.id %}
+                  <td class="align-middle">Administrator</td>
+                {% else %}
+                  <td class="align-middle">Regular User</td>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
     </section>
   </section>
