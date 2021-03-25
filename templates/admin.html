@@ -1,8 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
-<html >
+<html>
 <head>
-    <link rel="stylesheet" href="manage.css">
-    <script src="user.js"></script>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <script src="{% static 'js/user.js' %}"></script>
 </head>
 <body>
   <svg style="display:none;">
@@ -89,11 +90,11 @@
   </svg>
   <header class="page-header">
     <nav>
-        <p>
-            <a href="admin.html">
-            <img alt="W3Schools" src="images/4.png" width="200" height="200">
-            </a>
-        </p>
+      <p>
+        <a href="../administrator/dashboard">
+        <img alt="W3Schools" src="images/4.png" width="200" height="200">
+        </a>
+      </p>
       <button class="toggle-mob-menu" aria-expanded="false" aria-label="open menu">
         <svg width="20" height="20" aria-hidden="true">
           <use xlink:href="#down"></use>
@@ -104,7 +105,7 @@
           <h3>Admin</h3>
         </li>
         <li>
-          <a href="event.html">
+          <a href="../administrator/events">
             <svg>
               <use xlink:href="#pages"></use>
             </svg>
@@ -112,7 +113,7 @@
           </a>
         </li>
         <li>
-          <a href="user.html">
+          <a href="../administrator/users">
             <svg>
               <use xlink:href="#users"></use>
             </svg>
@@ -120,7 +121,7 @@
           </a>
         </li>
         <li>
-          <a href="#0">
+          <a href="../administrator/manage">
             <svg>
               <use xlink:href="#collection"></use>
             </svg>
@@ -138,7 +139,7 @@
   <section class="page-content">
     <section class="search-and-user">
       <form>
-        <input type="search" placeholder="Search User...">
+        <input type="search" placeholder="Search Events...">
         <button type="submit" aria-label="submit form">
           <svg aria-hidden="true">
             <use xlink:href="#search"></use>
@@ -155,91 +156,38 @@
         </div>
       </div>
     </section>
-    <div class="pagination">
-        <ol id="numbers"></ol>
+    <div class="container">
+      <div class="box">
+        <h2>01</h2>
+        <h3>Create your Profile</h3>
+        <p></p>
+      </div>
+      <div class="box">
+        <h2>02</h2>
+        <h3>Verify Your Account</h3>
+        <p></p>
+      </div>
+      <div class="box">
+        <h2>03</h2>
+        <h3>Join Events</h3>
+        <p></p>
+      </div>
+      <div class="box">
+        <h2>04</h2>
+        <h3>Rate the Events</h3>
+        <p></p>
+      </div>
+      <div class="box">
+        <h2>05</h2>
+        <h3>Request to be an Organizer</h3>
+        <p></p>
+      </div>
+      <div class="box">
+        <h2>06</h2>
+        <h3>Organize Events</h3>
+        <p>Organize Events as an Organizer</p>
+      </div>
     </div>
-    
-    <table id="my-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Date of Birth</th>
-                <th>Country</th>
-                <th>Status</th>
-                <th>Number of Events Joined</th>
-                <th>Request</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Kyle P. Fleming</td>
-                <td>March 14th, 2019</td>
-                <td>Japan</td>
-                <td>User</td>
-                <td>22</td>
-                <td>
-                    <br>
-                    <a href="#" class="accept">ACCEPT <span class="fa fa-check"></span></a>
-                    <a href="#" class="deny">DENY <span class="fa fa-close"></span></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Dora S. Valenzuela</td>
-                <td>May 15th, 2018</td>
-                <td>Lesotho</td>
-                <td>User</td>
-                <td>13</td>
-                <td>
-                    <br>
-                    <a href="#" class="accept">ACCEPT <span class="fa fa-check"></span></a>
-                    <a href="#" class="deny">DENY <span class="fa fa-close"></span></a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Tara X. Humphrey</td>
-                <td>May 13th, 2019</td>
-                <td>Canada</td>
-                <td>User</td>
-                <td>3</td>
-                <td>
-                    <br>
-                    <a href="#" class="accept">ACCEPT <span class="fa fa-check"></span></a>
-                    <a href="#" class="deny">DENY <span class="fa fa-close"></span></a>
-                </td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Jade A. Frazier</td>
-                <td>January 12th, 2020</td>
-                <td>French</td>
-                <td>Organizer</td>
-                <td>25</td>
-                <td>
-                    <br>
-                    <a href="#" class="accept">ACCEPT <span class="fa fa-check"></span></a>
-                    <a href="#" class="deny">DENY <span class="fa fa-close"></span></a>
-                </td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Frances Q. Steele</td>
-                <td>December 18th, 2018</td>
-                <td>America</td>
-                <td>User</td>
-                <td>27</td>
-                <td>
-                    <br>
-                    <a href="#" class="accept">ACCEPT <span class="fa fa-check"></span></a>
-                    <a href="#" class="deny">DENY <span class="fa fa-close"></span></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    </section>
   </section>
   </body>
   </html>

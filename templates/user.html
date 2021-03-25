@@ -1,8 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html >
 <head>
-    <link rel="stylesheet" href="user.css">
-    <script src="user.js"></script>
+    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+    <script src="{% static 'js/user.js' %}"></script>
 </head>
 <body>
   <svg style="display:none;">
@@ -90,7 +91,7 @@
   <header class="page-header">
     <nav>
         <p>
-            <a href="admin.html">
+            <a href="../administrator/dashboard">
             <img alt="W3Schools" src="images/4.png" width="200" height="200">
             </a>
         </p>
@@ -104,7 +105,7 @@
           <h3>Admin</h3>
         </li>
         <li>
-          <a href="event.html">
+          <a href="../administrator/events">
             <svg>
               <use xlink:href="#pages"></use>
             </svg>
@@ -112,7 +113,7 @@
           </a>
         </li>
         <li>
-          <a href="user.html">
+          <a href="../administrator/users">
             <svg>
               <use xlink:href="#users"></use>
             </svg>
@@ -120,7 +121,7 @@
           </a>
         </li>
         <li>
-          <a href="manage.html">
+          <a href="../administrator/manage">
             <svg>
               <use xlink:href="#collection"></use>
             </svg>
