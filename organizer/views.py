@@ -72,7 +72,7 @@ class OrganizerDashboardView(View):
 					update_num_of_par = Event.objects.filter(event_id = current_request[0].event_id).update(num_of_participants = 1)
 				else:
 					update_num_of_par = Event.objects.filter(event_id = current_request[0].event_id).update(num_of_participants=F('num_of_participants') + 1)
-			elif 'btn_delete' in request.POST:
+			elif 'btn_decline' in request.POST:
 				id_num = request.POST.get("request_id_num")
 				accept_request = Request.objects.filter(request_id = id_num).update(status = 'declined')
 		return redirect('organizer:organizer_dashboard_view')
