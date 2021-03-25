@@ -60,7 +60,13 @@ class OrganizerDashboardView(View):
 																															time = time)
 			elif 'btn_yes' in request.POST:
 				id_num = request.POST.get("event_id_num")
-				delete_event = Event.objects.filter(event_id = id_num).update(is_cancelled = True)
+				event_to_be_cancelled = Event.objects.filter(event_id = id_num)
+				cancel_event = event_to_be_cancelled.update(is_cancelled = True)
+				description = "We regret to inform you that the organizer of " + event_to_be_cancelled[0].title + " has decided to cancel the said event."
+				participants = Participant.objects.filter(event_id=event_to_be_cancelled[0]).values_list('user_id', flat=True)
+				for participant in participants:
+					new_notification = Notification(description=description, user_id=participant)
+					new_notification.save()
 			elif 'btn_accept' in request.POST:
 				id_num = request.POST.get("request_id_num")
 				current_request = Request.objects.filter(request_id = id_num)
@@ -72,7 +78,15 @@ class OrganizerDashboardView(View):
 					update_num_of_par = Event.objects.filter(event_id = current_request[0].event_id).update(num_of_participants = 1)
 				else:
 					update_num_of_par = Event.objects.filter(event_id = current_request[0].event_id).update(num_of_participants=F('num_of_participants') + 1)
+				description = "Your request to join " + current_event[0].title + " has been accepted by the organizer!"
+				new_notification = Notification(description=description, user_id=current_request[0].user_id)
+				new_notification.save()
 			elif 'btn_decline' in request.POST:
 				id_num = request.POST.get("request_id_num")
-				accept_request = Request.objects.filter(request_id = id_num).update(status = 'declined')
+				current_request = Request.objects.filter(request_id = id_num)
+				current_event = Event.objects.filter(event_id = current_request[0].event_id)
+				decline_request = Request.objects.filter(request_id = id_num).update(status = 'declined')
+				description = "Unfortunately, your request to join " + current_event[0].title + " has been declined by the organizer."
+				new_notification = Notification(description=description, user_id=current_request[0].user_id)
+				new_notification.save()
 		return redirect('organizer:organizer_dashboard_view')
