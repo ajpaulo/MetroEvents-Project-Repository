@@ -161,139 +161,31 @@
         <ol id="numbers"></ol>
     </div>
     
-    <table id="my-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Date</th>
-                <th>Duration</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>User Conference - Oracle Code One (JavaOne)</td>
-                <td>Conference</td>
-                <td>January 18, 2016</td>
-                <td>9:00AM - 4:00PM</td>
-                <td><p style="color:green">Completed</p></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Event Roadshow - Marketo's Innovation in the Nation</td>
-                <td>Seminar</td>
-                <td>November 8, 2019</td>
-                <td>1:00PM - 5:00PM</td>
-                <td><p style="color:green">Completed</p></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Experiential Aviation - JetBlue's Ultimate Icebreaker</td>
-                <td>Sponsorship</td>
-                <td>December 20, 2021</td>
-                <td>8:00AM - 11:00PM</td>
-                <td><p style="color:orangered">Upcoming</p></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Networking Event - Lean Startup's Networking Event</td>
-                <td>Networking</td>
-                <td>March 25, 2021</td>
-                <td>1:00PM - 5:00PM</td>
-                <td><p style="color:yellow">Ongoing</p></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Publisher Conference</td>
-                <td>Conference</td>
-                <td>August 3, 2019</td>
-                <td>8:00AM - 12:00PM</td>
-                <td><p style="color:green">Completed</p></td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>Virtual Event - Google I/O</td>
-                <td>Speaker Session</td>
-                <td>February 20, 2020</td>
-                <td>9:00AM - 12:00PM</td>
-                <td><p style="color:green">Completed</p></td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>Seminar - SQL Bits</td>
-                <td>Seminar</td>
-                <td>March 25, 2021</td>
-                <td>9:00AM - 12:00PM</td>
-                <td><p style="color:yellow">Ongoing</p></td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>Internal Company Meeting</td>
-                <td>Workshops and Classes</td>
-                <td>March 25, 2021</td>
-                <td>8:00AM - 12:00PM</td>
-                <td><p style="color:yellow">Ongoing</p></td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>Trade Show - CNET's Computex</td>
-                <td>Speaker Session</td>
-                <td>October 12, 2021</td>
-                <td>1:00PM - 4:00PM</td>
-                <td><p style="color:orangered">Upcoming</p></td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>Industry Roundtable</td>
-                <td>Workshops and Classes</td>
-                <td>January 15, 2022</td>
-                <td>8:00AM - 12:00PM</td>
-                <td><p style="color:orangered">Upcoming</p></td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td>Award Ceremony</td>
-                <td>Ceremony</td>
-                <td>April 20, 2020</td>
-                <td>5:00PM - 10:00PM</td>
-                <td><p style="color:green">Completed</p></td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td>Fundraising Gala</td>
-                <td>Fundraising</td>
-                <td>July 27, 2021</td>
-                <td>1:00PM - 5:00PM</td>
-                <td><p style="color:orangered">Upcoming</p></td>
-            </tr>
-            <tr>
-                <td>13</td>
-                <td>Product Launch - Apple's Worldwide Developers Conference</td>
-                <td>Conference</td>
-                <td>March 25, 2021</td>
-                <td>9:00AM - 4:00PM</td>
-                <td><p style="color:yellow">Ongoing</p></td>
-            </tr>
-            <tr>
-                <td>14</td>
-                <td>Recruiting Event - Spotify's Diversify</td>
-                <td>Seminar</td>
-                <td>June 20, 2019</td>
-                <td>9:00AM - 6:00PM</td>
-                <td><p style="color:green">Completed</p></td>
-            </tr>
-            <tr>
-                <td>15</td>
-                <td>Team Building - Glassdoor's Board Game Tournament</td>
-                <td>Seminar</td>
-                <td>August 10, 2018</td>
-                <td>1:00PM - 5:00PM</td>
-                <td><p style="color:orangered">Upcoming</p></td>
-            </tr>
-        </tbody>
+    <table class="table table-striped table-bordered text-center">
+      <thead>
+        <tr>
+          <th width="1%">ID</th>
+          <th width="20%">Event Title</th>
+          <th width="15%">Type</th>
+          <th width="12%">Date</th>
+          <th width="10%">Time</th>
+          <th width="10%">No. of Participants</th>
+          <th width="15%">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for event in events %} 
+        <tr>
+          <td class="align-middle">{{event.event_id}}</td>
+          <td class="align-middle">{{event.title}}</td>
+          <td class="align-middle">{{event.type}}</td>
+          <td class="align-middle">{{event.date}}</td>
+          <td class="align-middle">{{event.time}}</td>
+          <td class="align-middle">{{event.num_of_participants}}</td>
+          <td class="align-middle"></td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
     </section>
   </section>

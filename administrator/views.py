@@ -27,7 +27,11 @@ class AdministratorUsersView(View):
 
 class AdministratorEventsView(View):
   def get(self, request):
-    return render(request, 'event.html')
+    qs_events = Event.objects.all()
+    context = {
+      'events' : qs_events,
+    }
+    return render(request, 'event.html', context)
     
 class AdministratorManageView(View):
   def get(self, request):
