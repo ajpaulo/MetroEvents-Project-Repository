@@ -18,7 +18,40 @@
     <!-- DataTable -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
     <!-- Custom -->
-    <link href="{% static 'css/organizerDashboard.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/organizerDashboard.css' %}" rel="stylesheet"> -->
+
+    <style>
+      a {
+        color: #ffffff;
+      }
+
+      a:hover {
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      .btn:focus {
+        box-shadow: none;
+      }
+
+      .btn:active {
+        box-shadow: none;
+      }
+
+      .btn-logout {
+        color:#ffffff;
+        background-color: transparent;
+        border-color: #ffffff;
+        border-radius: 4px;
+      }
+
+      .btn-logout:hover {
+        color: #343a40;
+        background-color: #ffffff;
+        border-color: #ffffff;
+        border-radius: 4px;
+      }
+    </style>
   {% endblock headerinclude %}
 
   {% block footerinclude %}
@@ -33,7 +66,25 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <!-- Custom -->
-    <script src="{% static 'js/organizerDashboard.js' %}"></script>
+    <!-- <script src="{% static 'js/organizerDashboard.js' %}"></script> -->
+    <script>
+      $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+
+      function disableBeforeToday(input_date_id) {
+        var dateToday = new Date().toISOString().slice(0, 10);
+        document.getElementById(input_date_id).setAttribute("min",dateToday);
+      }
+
+      $(document).ready(function() {
+        var eventListDataTable = $('#eventList').DataTable( {
+          'columnDefs': [ {
+            'targets': [3], 
+            'orderable': false, // set orderable false for buttons col
+          }],
+        } );
+
+      } );
+    </script>
   {% endblock footerinclude %} 
 
   {% block content %}
@@ -340,4 +391,12 @@
         </div>
       </div>
     </div>
+    <script>
+      $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+
+      function disableBeforeToday(input_date_id) {
+        var dateToday = new Date().toISOString().slice(0, 10);
+        document.getElementById(input_date_id).setAttribute("min",dateToday);
+      }
+    </script>
   {% endblock content %}
