@@ -73,8 +73,8 @@ class UserLoginView(View):
       is_organizer = Organizer.objects.filter(user_id=request.user.id)
       if is_organizer:
         return redirect('organizer:organizer_dashboard_view')
-      # elif is_admin:
-      #   return redirect('')
+      elif is_admin:
+        return redirect('administrator:administrator_dashboard_view')
       else:
         return redirect('user:user_dashboard')
     else:
