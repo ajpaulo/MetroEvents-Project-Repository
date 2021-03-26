@@ -4,7 +4,7 @@ from django.http import Http404
 from django.http import HttpResponse 
 # from .forms import Customer_Form
 from organizer.models import *
-
+from django.contrib.auth.models import auth, User
 from datetime import date
 import time
 from .models import *
