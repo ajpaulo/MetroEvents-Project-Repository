@@ -10,7 +10,8 @@ import time
 from .models import *
 from user.models import *
 from organizer.models import *
-from django.contrib.auth import login, logout, auth
+from django.contrib.auth.models import auth
+from django.contrib.auth import login, logout
 from administrator.models import *
 from organizer.models import *
 from .forms import RequestForm
