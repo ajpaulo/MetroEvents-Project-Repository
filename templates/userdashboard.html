@@ -43,6 +43,15 @@
 
 <div class="container">
 
+  <form method = "POST">
+    {% csrf_token %}
+      <input type="text" class="form-control-plaintext" name="reqAdm_type" value="become_organizer" hidden>
+      <input type="text" class="form-control-plaintext" name="reqAdm_status" value="pending" hidden>
+      <input type="text" class="form-control-plaintext" name="reqAdm_description" value="I want to become an organizer" hidden>
+      <button type="submit" name="reqAdminBtn" class="btn" style="background-color: #000000; color: white">Be an organizer</button>
+  </form>
+
+
 <!-- EVENT CARDS -->
   
 <!-- ############################################################################################################# -->
@@ -103,12 +112,14 @@
                       <br>
                       <b>Want to join the event? Send your request to the organizer now!</b>
                       <br><br>
-                      <form id = "reqForm" method = "post">
+                      <form method = "POST">
                         {% csrf_token %}
                         <div class="form-group col">
-                            <input type="text" class="form-control-plaintext" name="req_type" value="join event" hidden>
+                            <input type="text" class="form-control-plaintext" name="req_type" value="join_event" hidden>
                             <input type="text" class="form-control-plaintext" name="req_event_id" value={{eventfgt.event_id}} hidden>
                             <input type="text" class="form-control-plaintext" name="req_status" value="pending" hidden>
+                            
+
                         </div>
 
                         <div class="form-group">
@@ -121,10 +132,10 @@
 
               <!--MODAL FOOTER-->
                 <div class="modal-footer">
-                  <button type="submit" id="reqJoinBtn" class="btn" style="background-color: #000000; color: white">Send Request</button>
+                  <button type="submit" name="reqJoinBtn" class="btn" style="background-color: #000000; color: white">Send Request</button>
                   <button type="button" class="btn" data-dismiss="modal" style="background-color: #e7e4e4; color: rgb(0, 0, 0)">Close</button>
                       
-                      </form>
+                    </form>
                 </div>
               </div>
             </div>
