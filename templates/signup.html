@@ -29,12 +29,10 @@
         }
         .modal{
             background-color: white;
-            overflow: auto;
-            padding-top: 60px;
-            width: 100%;
+            width: 1100px;
             height: 100%;
             top: 0%;
-            left: 0%;
+            left: 14%;
             z-index: 1;
             position: fixed; 
         }
@@ -46,6 +44,7 @@
         }
         .container{
             padding: 16px
+            
         }
         span.psw{
             float: right;
@@ -60,22 +59,22 @@
     <div class="container">
     <center><h1>RegistrationForm</h1></center>
     <label>FirstName</label>
-    <input type="text" placeholder="firstname" name="firstname">
+    <input type="text" placeholder="firstname" name="firstname" required>
     <br>
     <label>LastName</label>
-    <input type="text" placeholder="lastname" name="lastname">
+    <input type="text" placeholder="lastname" name="lastname" required>
     <br>
     <label>UserName</label>
-    <input type="text" placeholder="username" name="username">
+    <input type="text" placeholder="username" name="username" required>
     <br>
     <label>Password</label>
-    <input type="password" placeholder="password" name="password">
+    <input type="password" placeholder="password" name="password" required>
     <br>
     <label>ConfirmPassword</label>
-    <input type="password" placeholder="confirmpassword" name="confirmpassword">
+    <input type="password" placeholder="confirmpassword" name="confirmpassword" required>
     <br> 
     <label>Email</label>
-    <input type="text" placeholder="email" name="email">
+    <input type="text" placeholder="email" name="email" required>
     <br>
     <!-- <input type="checkbox">terms that you agree to share your personal information
     <br> -->

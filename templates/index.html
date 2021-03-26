@@ -25,12 +25,11 @@
             width: 100%
         }
         button:hover{
-            opacity: 0.8;
+            opacity: 0.5;
         }
         .imgicontainer{
             text-align: center;
-            margin: 24px 0 12px 0;
-            position: relative;
+            background: #0f4675;
         }
         img.avatar{
             width: 30%;
@@ -38,23 +37,22 @@
         }
         .modal{
             background-color: white;
-            overflow: auto;
-            padding-top: 60px;
-            width: 100%;
+            width: 1000px;
             height: 100%;
             top: 0%;
-            left: 0%;
+            left: 14%;
             z-index: 1;
-            position: fixed;        
+            position: fixed; 
         }
         .modal-content{
-            background-color:white;
+            background-color: white;
             margin: 5% auto 15% auto;
             border: 1px solid #888;
-            width: 80%;
+            width: 1100px;
         }
         .container{
             padding: 16px
+
         }
         span.psw{
             float: right;
@@ -67,19 +65,19 @@
 <form class ="modal-content animate" method="POST">
     {% csrf_token %}
     <div class="imgicontainer">
-    <img src="templates/grouptwo/avatar.png" class="avatar">
+    <img src="../templates/admin/images/4.png" class="avatar">
 </div>
 <div class="container"> 
     <label>UserName</label>
-    <input type="text" placeholder="username" name="username">
+    <input type="text" placeholder="username" name="username" required>
     <br>
     <label>Password</label>
-    <input type="password" placeholder="password" name="password">
+    <input type="password" placeholder="password" name="password" required>
     <br>
     <!-- <input type="checkbox">Remember me -->
     <button type="submit" name="btn_login">Login</button>
     <!-- <lable><p>Forget<a href="#"> Password</a></p></lable> -->
-    <lable><p>No Account?<a href="../user/signup"> signup</a></p></lable>
+    <lable><p>No Account?<a href="signup.html"> signup</a></p></lable>
 </div>
 </form>
 </div>
