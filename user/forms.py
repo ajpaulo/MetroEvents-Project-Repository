@@ -1,8 +1,9 @@
 from django import forms
 from .models import *
+from organizer.models import *
 
 class RequestForm(forms.ModelForm):
 	
 	class Meta:
 		model = Request
-		fields = ('description',)
+		fields = ('user', 'event', 'description', 'request_type', 'status')

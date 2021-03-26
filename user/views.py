@@ -4,10 +4,11 @@ from django.http import Http404
 from django.http import HttpResponse 
 # from .forms import Customer_Form
 from organizer.models import *
-from django.contrib.auth.models import auth, User
+
 from datetime import date
 import time
 from .models import *
+from user.models import *
 from organizer.models import *
 from django.contrib.auth import login, logout
 from administrator.models import *
@@ -20,51 +21,53 @@ from .forms import RequestForm
 # Class to display all events to the user dashboard
 class UserDashboard(View):
   def get(self, request):
-    # if request.user.is_authenticated:
+    if request.user.is_authenticated:
+      now = date.today()
+      current_date = now.strftime("%Y-%m-%d")
 
-    now = date.today()
-    current_date = now.strftime("%Y-%m-%d")
+      t = time.localtime()
+      current_time = time.strftime("%H:%M:%S", t)
 
-    t = time.localtime()
-    current_time = time.strftime("%H:%M:%S", t)
+      qs_compare_lt = Event.objects.filter(date__lt = current_date, is_cancelled = False)
+      qs_compare_gt = Event.objects.filter(date__gt = current_date, is_cancelled = False)
+      qs_cancelled_events = Event.objects.filter(is_cancelled=True)
 
-    qs_compare_lt = Event.objects.filter(date__lt = current_date, is_cancelled = False)
-    qs_compare_gt = Event.objects.filter(date__gt = current_date, is_cancelled = False)
-    qs_cancelled_events = Event.objects.filter(is_cancelled=True)
-    
-    qs_users = User.objects.all()
+      print(qs_compare_lt)
+      print(qs_compare_gt)
+      print(qs_cancelled_events)
+      
 
-    # eventID = Event.objects.filter(date__lt = current_date, is_cancelled = False)
-    # userID = Event.objects.filter(date__lt = current_date, is_cancelled = False)
-
-    # qs_requests = Request.objects.filter(request_type='join_event', event_id__in=events_organized)
-
-    print(qs_users)
-    print(qs_compare_lt)
-    print(qs_compare_gt)
-    print(qs_cancelled_events)
-    
-
-    context = {
-        'filterdate_lt': qs_compare_lt,
-        'filterdate_gt': qs_compare_gt,
-        'cancelledevents' : qs_cancelled_events,
-    }
+      context = {
+          'filterdate_lt': qs_compare_lt,
+          'filterdate_gt': qs_compare_gt,
+          'cancelledevents' : qs_cancelled_events,
+      }
 
     return render(request, 'userdashboard.html', context)
 
   def post(self, request):
     if request.method == 'POST':
       if 'reqJoinBtn' in request.POST:
-        form = RequestForm(request.POST)
-        userID = request.POPST.get("req_user_id")
+        userID = request.user.id
         description = request.POST.get("req_description")
-        type = request.POST.get("req_type")
+        type = request.POST.get("req_type") 
         status = request.POST.get("req_status")
         eventID = request.POST.get("req_event_id")
-        form = Request(user = userID, description = description, type = type, status = status, event = eventID)
+        form = Request(user_id = userID, description = description, request_type = type, status = status, event_id = eventID)
 
         form.save()
+      elif 'reqAdminBtn' in request.POST:
+        userID = request.user.id
+        description = request.POST.get("reqAdm_description")
+        type = request.POST.get("reqAdm_type") 
+        status = request.POST.get("reqAdm_status")
+        form = Request(user_id = userID, description = description, request_type = type, status = status)
+
+        form.save()
+        return HttpResponse("Your application is now being processed. Please wait for further instructions.")
+
+      else:
+        return HttpResponse("Request failed. Please try again.") 
 
     return redirect('user:user_dashboard')
         
