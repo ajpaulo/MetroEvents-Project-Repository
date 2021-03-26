@@ -35,5 +35,12 @@ class AdministratorEventsView(View):
     
 class AdministratorManageView(View):
   def get(self, request):
-    return render(request, 'manage.html')
+
+    qs_users = Request.objects.filter(request_type="become_organizer")
+
+    context = {
+      'requests' : qs_users,
+    }
+
+    return render(request, 'manage.html', context)
   
